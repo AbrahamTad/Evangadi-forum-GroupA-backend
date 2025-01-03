@@ -1,8 +1,9 @@
 require("dotenv").config()
 const express = require("express")
 const app = express()
-const port = process.env.PORT || 5500;
-// const port = 5500
+const PORT = process.env.PORT || 5500;
+
+// const PORT = 5500
 const cors = require("cors")
 
 app.use(cors())
@@ -37,19 +38,19 @@ app.use("/api", authMiddleware, answerRoute);
 async function start() {
     try {
         const result = await dbConection.execute("select 'test'")
-        await app.listen(port)
+        await app.listen(PORT)
         console.log("database connection established");
-        console.log(`listening on ${port}`);
+        console.log(`listening on ${PORT}`);
     } catch (error) {
         console.log(error.message);   
     }
 }
 start()
 
-// app.listen(port, (err)=>{
+// app.listen(PORT, (err)=>{
 //     if (err) {
 //         console.log(err);
 //     }else{
-//         console.log(`listening on localhost:${port}`);
+//         console.log(`listening on localhost:${PORT}`);
 //     }
 // })
