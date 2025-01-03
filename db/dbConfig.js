@@ -10,7 +10,6 @@ const dbConection = mysql2.createPool({
   connectionLimit: 10,
 });
 
-
 module.exports = dbConection.promise();
 
 // console.log("Loaded Environment Variables:", {
@@ -19,4 +18,3 @@ module.exports = dbConection.promise();
 //   DATABASE: process.env.DATABASE,
 //   JWT_SECRET: process.env.JWT_SECRET,
 // });
-
