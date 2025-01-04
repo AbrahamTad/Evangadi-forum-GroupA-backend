@@ -1,16 +1,15 @@
 const mysql2 = require("mysql2");
 
-const dbConection = mysql2.createPool({
-  PORT: process.env.PORT,
+const dbConnection = mysql2.createPool({
+  host: process.env.DB_HOST,
   user: process.env.USER,
-  DB_HOST: process.env.DB_HOST,
-  database: process.env.DATABASE,
-  host: "localhost",
   password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+  port: process.env.port || 3306, // Using the correct MySQL port from your .env file
   connectionLimit: 10,
 });
 
-module.exports = dbConection.promise();
+module.exports = dbConnection.promise();
 
 // console.log("Loaded Environment Variables:", {
 //   PORT: process.env.PORT,
