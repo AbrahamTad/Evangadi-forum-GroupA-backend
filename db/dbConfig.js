@@ -5,7 +5,7 @@ const dbConnection = mysql2.createPool({
   user: process.env.USER,
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
-  port: process.env.port || 3306, // Using the correct MySQL port from your .env file
+  port: process.env.DB_PORT, // Using the correct MySQL port from your .env file
   connectionLimit: 10,
 });
 
