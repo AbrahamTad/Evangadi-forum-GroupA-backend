@@ -1,5 +1,3 @@
-
-
 // require("dotenv").config();
 // const express = require("express");
 // const cors = require("cors");
@@ -42,32 +40,32 @@
 
 // start();
 
-require("dotenv").config()
-const express = require("express")
-const app = express()
-const port = process.env.PORT || 5500;
+require("dotenv").config();
+const express = require("express");
+const app = express();
+const port = process.env.PORT || 5000;
 // const port = 5500
-const cors = require("cors")
+const cors = require("cors");
 
-app.use(cors())
+app.use(cors());
 
 // db connection
-const dbConection = require("./db/dbConfig")
+const dbConection = require("./db/dbConfig");
 
 // authentication middleware
 const authMiddleware = require("./middleware/authMiddleware");
 
 // user router middleware file
-const userRouter = require("./routes/userRoute")
+const userRouter = require("./routes/userRoute");
 // json middleware to extract json data
-app.use(express.json())
+app.use(express.json());
 // user router middleware
 app.use("/api/users", userRouter);
 
 // question router middleware file
 const questionRoute = require("./routes/questionRoute");
 // question router middleware
-app.use("/api/questions", authMiddleware,questionRoute);
+app.use("/api/questions", authMiddleware, questionRoute);
 
 // answer router middleware file
 const answerRoute = require("./routes/answerRoute");
@@ -75,16 +73,16 @@ const answerRoute = require("./routes/answerRoute");
 app.use("/api", authMiddleware, answerRoute);
 
 async function start() {
-    try {
-        const result = await dbConection.execute("select 'test'")
-        await app.listen(port)
-        console.log("database connection established");
-        console.log(`listening on ${port}`);
-    } catch (error) {
-        console.log(error.message);
-    }
+  try {
+    const result = await dbConection.execute("select 'test'");
+    await app.listen(port);
+    console.log("database connection established");
+    console.log(`listening on ${port}`);
+  } catch (error) {
+    console.log(error.message);
+  }
 }
-start()
+start();
 
 // app.listen(port, (err)=>{
 //     if (err) {
