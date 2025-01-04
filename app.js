@@ -39,6 +39,7 @@
 // }
 
 // start();
+///'''****************************************************************
 
 // require("dotenv").config();
 // const express = require("express");
@@ -93,24 +94,55 @@
 // })
 
 // require("dotenv").config();
-const express = require("express");
-const app = express();
-const cors = require("cors");
+// const express = require("express");
+// const app = express();
+// const cors = require("cors");
 
+// app.use(cors());
+
+// // Set the port dynamically based on Render's environment
+// const PORT = process.env.PORT || 5000; // Use Render's provided PORT or default to 5000
+
+// // Example middleware and routes (ensure you have them set up correctly)
+// const dbConnection = require("./db/dbConfig");
+// const authMiddleware = require("./middleware/authMiddleware");
+// const userRoute = require("./routes/userRoute");
+
+// app.use(express.json()); // Middleware to parse JSON
+// app.use("/users", userRoute); // Example route
+
+// // Start the server and listen on the correct port
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+
+const express = require("express");
+const cors = require("cors");
+const app = express();
+
+// Enable CORS
 app.use(cors());
 
 // Set the port dynamically based on Render's environment
 const PORT = process.env.PORT || 5000; // Use Render's provided PORT or default to 5000
 
-// Example middleware and routes (ensure you have them set up correctly)
+// Database connection (ensure this is configured properly)
 const dbConnection = require("./db/dbConfig");
-const authMiddleware = require("./middleware/authMiddleware");
+
+// Import routes
 const userRoute = require("./routes/userRoute");
+const questionRoute = require("./routes/questionRoute");
+const answerRoute = require("./routes/answerRoute");
 
-app.use(express.json()); // Middleware to parse JSON
-app.use("/users", userRoute); // Example route
+// Middleware to parse JSON
+app.use(express.json());
 
-// Start the server and listen on the correct port
+// Set up route middlewares
+app.use("/api/users", userRoute); // User-related routes
+app.use("/api/questions", authMiddleware, questionRoute);
+app.use("/api", authMiddleware, answerRoute); // Answer-related routes
+
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
