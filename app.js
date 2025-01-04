@@ -1,15 +1,17 @@
+
+
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
-const dbConnection = require("./db/dbConfig");
+const dbConection = require("./db/dbConfig");
 const authMiddleware = require("./middleware/authMiddleware");
 const userRouter = require("./routes/userRoute");
 const questionRoute = require("./routes/questionRoute");
 const answerRoute = require("./routes/answerRoute");
 
 const app = express();
-const port = process.env.PORT || 3000; // Render dynamically assigns PORT
+const port = process.env.PORT || 3000; // Default to 3000 if no environment variable is set
 
 // Middleware
 app.use(cors());
@@ -20,30 +22,16 @@ app.use("/api/users", userRouter);
 app.use("/api/questions", authMiddleware, questionRoute);
 app.use("/api", authMiddleware, answerRoute);
 
-// Test database connection
-async function testDbConnection() {
-  try {
-    const result = await dbConnection.execute("SELECT 'test'");
-    console.log("Database connection test successful:", result);
-  } catch (error) {
-    throw new Error("Database connection failed: " + error.message);
-  }
-}
-
 // Start the server
 async function start() {
   try {
-    console.log("Environment Variables:", {
-      PORT: process.env.PORT,
-      DB_HOST: process.env.DB_HOST,
-      DB_PORT: process.env.DB_PORT,
-      USER: process.env.USER,
-      DATABASE: process.env.DATABASE,
-    });
-
     console.log(`Attempting to start server on port: ${port}`);
-    await testDbConnection();
 
+    // Test database connection
+    const result = await dbConection.execute("SELECT 'test'");
+    console.log("Database connection established:", result);
+
+    // Listen on the port
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
@@ -53,48 +41,6 @@ async function start() {
 }
 
 start();
-
-// require("dotenv").config();
-// const express = require("express");
-// const cors = require("cors");
-
-// const dbConection = require("./db/dbConfig");
-// const authMiddleware = require("./middleware/authMiddleware");
-// const userRouter = require("./routes/userRoute");
-// const questionRoute = require("./routes/questionRoute");
-// const answerRoute = require("./routes/answerRoute");
-
-// const app = express();
-// const port = process.env.PORT || 3000; // Default to 3000 if no environment variable is set
-
-// // Middleware
-// app.use(cors());
-// app.use(express.json());
-
-// // Routes
-// app.use("/api/users", userRouter);
-// app.use("/api/questions", authMiddleware, questionRoute);
-// app.use("/api", authMiddleware, answerRoute);
-
-// // Start the server
-// async function start() {
-//   try {
-//     console.log(`Attempting to start server on port: ${port}`);
-
-//     // Test database connection
-//     const result = await dbConection.execute("SELECT 'test'");
-//     console.log("Database connection established:", result);
-
-//     // Listen on the port
-//     app.listen(port, () => {
-//       console.log(`Server is running on port ${port}`);
-//     });
-//   } catch (error) {
-//     console.error("Error starting the server:", error.message);
-//   }
-// }
-
-// start();
 
 // // require("dotenv").config()
 // // const express = require("express")
